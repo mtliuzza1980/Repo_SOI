@@ -366,7 +366,10 @@ t.test(df$Att~df$RELATIONSHIP)
 t.test(df$Des~df$RELATIONSHIP)
 
 
-
+effectsize::cohens_d(Beh~df$RELATIONSHIP, data = df)
+effectsize::cohens_d(Beh~df$RELATIONSHIP, data = df)
+effectsize::cohens_d(Beh~df$RELATIONSHIP, data = df)
+effectsize::cohens_d(Beh~df$RELATIONSHIP, data = df)
 
 
 
