@@ -11,7 +11,7 @@ library(ggplot2)
 library(ggpubr)
 library(rstatix)
 library(emmeans)
-library(tidyr)
+
 library(lme4)
 library(lmerTest)
 library(multilevelTools)
@@ -199,7 +199,6 @@ apa_cor <- apa.cor.table(df[,c(4,5,6,7,17,18,19,20,21)], filename="Table2_COR.xl
 
 
 ### Test groups' equality
-library(compareGroups)
 df$RELATIONSHIP <- as.factor(df$RELATIONSHIP)
 df$Sexual_Orientation <- as.factor(df$Sexual_Orientation)
 df$Sexual_Orientation
@@ -334,6 +333,7 @@ grid.arrange(p,p2,p4,p3, top= "SOI differences between gender",
 ######################### Interaction 
 
 ##Long data-frame
+library(tidyr)
 SOG <- c(1:655)
 df <- cbind(df, SOG)
 B <- rep("B", 1965)
