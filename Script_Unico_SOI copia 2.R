@@ -11,10 +11,6 @@ library(ggplot2)
 library(ggpubr)
 library(rstatix)
 library(emmeans)
-
-library(lme4)
-library(lmerTest)
-library(multilevelTools)
 library(apaTables)
 
 
@@ -334,6 +330,8 @@ grid.arrange(p,p2,p4,p3, top= "SOI differences between gender",
 
 ##Long data-frame
 library(tidyr)
+library(lme4)
+library(lmerTest)
 
 SOG <- c(1:655)
 df <- cbind(df, SOG)
