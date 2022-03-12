@@ -334,6 +334,7 @@ grid.arrange(p,p2,p4,p3, top= "SOI differences between gender",
 
 ##Long data-frame
 library(tidyr)
+
 SOG <- c(1:655)
 df <- cbind(df, SOG)
 B <- rep("B", 1965)
