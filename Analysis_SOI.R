@@ -17,19 +17,12 @@ library(lmerTest)
 library(multilevelTools)
 library(apaTables)
 
-
-
-
-
-
-
 df <- read.csv(file.choose())# DATA_SOI
 psych::describe(df$AGE)# age descriptive
 length(which(df$GENDER=="M"))# 178 male, 477 female
 
 
-
-######################Confirmatory factor analysis
+###################### Confirmatory factor analysis ######################
 
 ### One factor model
 mod_uni <- "SOI =~ NA*SOI_1 + SOI_1 + SOI_2 + SOI_3 + SOI_4 + SOI_5 + SOI_6 + SOI_7 + SOI_8 + SOI_9"
