@@ -23,7 +23,7 @@ library(apaTables)
 
 
 
-df <- read.csv(file.choose())# DATA_SOIR
+df <- read.csv(file.choose())# DATA_SOI
 psych::describe(df$AGE)# age descriptive
 length(which(df$GENDER=="M"))# 178 male, 477 female
 
