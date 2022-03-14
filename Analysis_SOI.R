@@ -80,13 +80,13 @@ psych::omegaFromSem(cfa_bif)
 ######################### Test-retest reliability 
 df.retest <- read.csv(file.choose(), stringsAsFactors = T)# TestRetest
 
-x<-Hmisc::rcorr(as.matrix(df.retest[, c('SOI_BEH_t0', 'SOI_BEH_t1', "SOI_ATT_t0", 
+x <- Hmisc::rcorr(as.matrix(df.retest[, c('SOI_BEH_t0', 'SOI_BEH_t1', "SOI_ATT_t0", 
                                         "SOI_ATT_t1","SOI_DES_t0", "SOI_DES_t1", 
                                         "SOI_t0_TOT", "SOI_t1_TOT")]), type = "spearman")
 
 pander::pander(x$r, )
-x$r# spearman rank coefficient 
-x$P# p-value
+round(x$r, 2)# spearman rank coefficient 
+round(x$P, 3)# p-value
 
 
 
@@ -162,7 +162,7 @@ fitmeasures(fit_loth, fit.measures = c("chisq", "df", "tli", "cfi", "rmsea", "sr
             output ="matrix")
 
 
-compare<- lavTestLRT(fit_loth, fit_thr, fit_base3)
+lavTestLRT(fit_loth, fit_thr, fit_base3)
 
 
 
@@ -177,7 +177,7 @@ df$GENDER <- as.character(df$GENDER)
 
 
 apa_cor <- apa.cor.table(df[,c(4,5,6,7,17,18,19,20,21)], filename="Table2_COR.xls")# correlation matrix APA-style
-
+apa_cor
 
 ######################### ANCOVA ~gender+age
 
@@ -199,15 +199,15 @@ gender_T# no equality for AGE
 
 
 
-m_Beh <- lm(Beh~GENDER+AGE, data= df)#ANCOVA
+m_Beh <- lm(Beh ~ GENDER + AGE, data= df)#ANCOVA
 summary(m_Beh)
 
-res1 <- anova_test(Beh~AGE+GENDER, data= df)#ANCOVA for plot
+res1 <- anova_test(Beh ~ AGE + GENDER, data= df)#ANCOVA for plot
 
-pwc <- emmeans_test(Beh~GENDER, covariate = AGE,  
+pwc <- emmeans_test(Beh ~ GENDER, covariate = AGE,  
                     p.adjust.method = "bonferroni",data = df)
 
-t <- t.test(Beh~GENDER, data = df)## t test 
+t <- t.test(Beh ~ GENDER, data = df)## t test 
 adj <- attr(pwc, "emmeans")## adjusted means
 
 round(t$estimate,1)== round(adj$emmean,1)## difference between adj and means of groups
@@ -215,8 +215,9 @@ round(t$estimate,1)== round(adj$emmean,1)## difference between adj and means of 
 
 ##Plot + eta square
 pwc1 <- add_xy_position(pwc, x = "GENDER", fun = "mean_se" )
-p <- ggline(get_emmeans(pwc1), x = "GENDER", y = "emmean") +
-  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) + 
+p <- ggline(get_emmeans(pwc1), x = "GENDER", y = "emmean")
+                        
+  p + geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) + 
   stat_pvalue_manual(pwc1, hide.ns = TRUE, tip.length = FALSE) +
   labs(
     subtitle = get_test_label(res1, detailed = TRUE),
@@ -224,15 +225,15 @@ p <- ggline(get_emmeans(pwc1), x = "GENDER", y = "emmean") +
   )
 
 par(mfrow=c(2,2))
-effectsize::cohens_d(Beh~GENDER, data = df)#Cohen D
+effectsize::cohens_d(Beh ~ GENDER, data = df)#Cohen D
 
 ## Att
-m_Att <- lm(Att~GENDER+AGE, data= df)#ANCOVA
+m_Att <- lm(Att ~ GENDER + AGE, data= df)#ANCOVA
 summary(m_Att)
 
-res2 <- anova_test(Att~AGE+GENDER, data= df)#ANCOVA for plot
+res2 <- anova_test(Att ~ AGE + GENDER, data= df)#ANCOVA for plot
 
-pwc2 <- emmeans_test(Att~GENDER, covariate = AGE,  
+pwc2 <- emmeans_test(Att ~ GENDER, covariate = AGE,  
                      p.adjust.method = "bonferroni",data = df)
 t2 <- t.test(Att~GENDER, data = df)## t test 
 adj2 <- attr(pwc2, "emmeans")## adjusted means
@@ -243,7 +244,8 @@ round(t2$estimate,1)== round(adj2$emmean,1)## difference between adj and means o
 
 ### Plot + eta square
 pwc2.0 <- add_xy_position(pwc2, x = "GENDER", fun = "mean_se" )
-p2 <- ggline(get_emmeans(pwc2.0), x = "GENDER", y = "emmean") +
+p2 <- ggline(get_emmeans(pwc2.0), x = "GENDER", y = "emmean") 
+p2 +
   geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) + 
   stat_pvalue_manual(pwc2.0, hide.ns = TRUE, tip.length = FALSE) +
   labs(
@@ -256,15 +258,15 @@ effectsize::cohens_d(Att~GENDER, data = df)#Cohen D
 
 ## Des
 
-m_Des <- lm(Des~GENDER+AGE, data= df)
+m_Des <- lm(Des ~ GENDER + AGE, data= df)
 summary(m_Des)
 
-res3<- anova_test(Des~AGE+GENDER, data= df)#ANCOVA for plot
+res3 <- anova_test(Des ~ AGE + GENDER, data= df)#ANCOVA for plot
 
-pwc3 <- emmeans_test(Des~GENDER, covariate = AGE,  
+pwc3 <- emmeans_test(Des ~ GENDER, covariate = AGE,  
                      p.adjust.method = "bonferroni",data = df)
 
-t3 <- t.test(Des~GENDER, data = df)## t test 
+t3 <- t.test(Des ~ GENDER, data = df)## t test 
 adj3 <- attr(pwc3, "emmeans")## adjusted means
 
 round(t3$estimate,1)== round(adj3$emmean,1)## difference between adj and means of groups
@@ -273,24 +275,25 @@ round(t3$estimate,1)== round(adj3$emmean,1)## difference between adj and means o
 
 ### Plot + eta square
 pwc3.0 <- add_xy_position(pwc3, x = "GENDER", fun = "mean_se" )
-p3 <- ggline(get_emmeans(pwc3.0), x = "GENDER", y = "emmean") +
+p3 <- ggline(get_emmeans(pwc3.0), x = "GENDER", y = "emmean") 
+p3 +
   geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) + 
   stat_pvalue_manual(pwc3.0, hide.ns = TRUE, tip.length = FALSE) +
   labs(
     subtitle = get_test_label(res3, detailed = TRUE),
     caption = get_pwc_label(pwc3.0))
 
-effectsize::cohens_d(Des~GENDER, data = df)#Cohen D
+effectsize::cohens_d(Des ~ GENDER, data = df)#Cohen D
 
 
-m_SOI <- lm(SOI~GENDER+AGE, data= df)
+m_SOI <- lm(SOI ~ GENDER + AGE, data= df)
 summary(m_SOI)
 
-res4 <- anova_test(SOI~AGE+GENDER, data= df)#ANCOVA for plot
+res4 <- anova_test(SOI ~ AGE+ GENDER, data= df)#ANCOVA for plot
 
-pwc4 <- emmeans_test(SOI~GENDER, covariate = AGE,  
-                     p.adjust.method = "bonferroni",data = df)
-t4 <- t.test(SOI~GENDER, data = df)## t test 
+pwc4 <- emmeans_test(SOI ~ GENDER, covariate = AGE,  
+                     p.adjust.method = "bonferroni", data = df)
+t4 <- t.test(SOI ~ GENDER, data = df)## t test 
 adj4 <- attr(pwc4, "emmeans")## adjusted means
 
 round(t4$estimate,1)== round(adj4$emmean,1)## difference between adj and means of groups
@@ -298,7 +301,8 @@ round(t4$estimate,1)== round(adj4$emmean,1)## difference between adj and means o
 
 ### Plot + eta square
 pwc4.0 <- add_xy_position(pwc4, x = "GENDER", fun = "mean_se" )
-p4 <- ggline(get_emmeans(pwc4.0), x = "GENDER", y = "emmean") +
+p4 <- ggline(get_emmeans(pwc4.0), x = "GENDER", y = "emmean") 
+  p4 +
   geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) + 
   stat_pvalue_manual(pwc3.0, hide.ns = TRUE, tip.length = FALSE) +
   labs(
@@ -308,7 +312,7 @@ p4 <- ggline(get_emmeans(pwc4.0), x = "GENDER", y = "emmean") +
 effectsize::cohens_d(SOI~GENDER, data = df)#cohen D
 
 library(gridExtra)
-grid.arrange(p,p2,p4,p3, top= "SOI differences between gender",
+grid.arrange(p, p2, p4, p3, top= "SOI differences between gender",
              widths = c(1, 1, 1),
              layout_matrix = rbind(c(3, 1, NA),
                                    c(3, 2, 4)))
@@ -346,15 +350,16 @@ plot_model(m1, type = "pred", terms = "GENDER")
 plot_model(m1, type = "pred", terms = c("SUB", "RELATIONSHIP"))
 plot_model(m1, type = "pred", terms = c("SUB", "GENDER"))
 
+t.test(df$SOI~df$RELATIONSHIP)
 t.test(df$Beh~df$RELATIONSHIP)
 t.test(df$Att~df$RELATIONSHIP)
 t.test(df$Des~df$RELATIONSHIP)
 
 
-effectsize::cohens_d(Beh~df$RELATIONSHIP, data = df)
-effectsize::cohens_d(Beh~df$RELATIONSHIP, data = df)
-effectsize::cohens_d(Beh~df$RELATIONSHIP, data = df)
-effectsize::cohens_d(Beh~df$RELATIONSHIP, data = df)
+effectsize::cohens_d(SOI ~ df$RELATIONSHIP, data = df)
+effectsize::cohens_d(Att ~ df$RELATIONSHIP, data = df)
+effectsize::cohens_d(Des ~ df$RELATIONSHIP, data = df)
+effectsize::cohens_d(Beh ~ df$RELATIONSHIP, data = df)
 
 
 
