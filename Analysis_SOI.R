@@ -71,11 +71,9 @@ anova(cfa_tri, cfa_uni, cfa_bif)# compare model
 ######################### Internal consistency
 
 psych::omegaFromSem(cfa_bif)
-
-
-# Omega total for total scores and subscales    0.92 0.82 0.83 0.87
-# Omega general for total scores and subscales  0.73 0.41 0.69 0.35
-# Omega group for total scores and subscales    0.19 0.41 0.15 0.52
+# Omega total for total scores and subscales    0.92 0.82 0.86 0.87
+# Omega general for total scores and subscales  0.74 0.42 0.70 0.35
+# Omega group for total scores and subscales    0.19 0.40 0.16 0.53
 
 
 
