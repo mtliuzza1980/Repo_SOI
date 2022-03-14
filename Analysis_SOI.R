@@ -224,7 +224,7 @@ p <- ggline(get_emmeans(pwc1), x = "GENDER", y = "emmean")
     caption = get_pwc_label(pwc1)
   )
 
-par(mfrow=c(2,2))
+par(mfrow = c(2,2))
 effectsize::cohens_d(Beh ~ GENDER, data = df)#Cohen D
 
 ## Att
